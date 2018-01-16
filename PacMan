@@ -1,1 +1,26 @@
-Hello
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Rectangle;
+import javax.swing.JComponent;
+
+public class PacMan extends JComponent {
+   public void paintComponent(Graphics g) {
+   
+      Graphics2D graphicsObj = (Graphics2D) g;
+      
+      
+      Rectangle background = new Rectangle(0, 0, 1000, 1000);  
+      Color color = new Color(0, 0, 0);
+      graphicsObj.setColor(color);
+      graphicsObj.fill(background);
+
+      Rectangle rectangle = new Rectangle(400, 450, 200, 100);  
+      color = new Color(0, 0, 255);
+      graphicsObj.setColor(color);
+      graphicsObj.draw(rectangle);
+      
+      return;
+   
+   }
+}
