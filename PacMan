@@ -43,7 +43,16 @@ public class PacMan extends JPanel implements ActionListener, KeyListener {
       
       g2.setColor(Color.blue);
       g2.draw(new Rectangle(400, 450, 200, 100));
+      g2.draw(new Rectangle(390, 440, 220, 120));
+      g2.drawLine(475, 450, 475, 440);
+      g2.drawLine(525, 450, 525, 440);
       
+      g2.setColor(Color.pink);
+      g2.draw(new Rectangle(390, 440, 220, 120));
+      
+      g2.setColor(Color.black);
+      g2.drawLine(475, 450, 525, 450);
+      g2.drawLine(475, 440, 525, 440);
    }
    
    public void actionPerformed(ActionEvent e) {
