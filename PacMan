@@ -8,6 +8,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.*;
+import java.awt.Robot;
+import java.awt.AWTException;
 
 public class PacMan extends JPanel implements ActionListener, KeyListener {
    
@@ -46,8 +48,21 @@ public class PacMan extends JPanel implements ActionListener, KeyListener {
    
    public void actionPerformed(ActionEvent e) {
       repaint();
-      x += velx;
-      y += vely;
+      try{
+         Robot robot = new Robot();
+         Color temp = robot.getPixelColor((int)(x + velx),(int)(y + vely));
+         if(!temp.equals(Color.blue)) {
+         
+            x += velx;
+            y += vely;
+         
+         }
+      
+      }
+      catch (AWTException x) {
+            x.printStackTrace();
+      }
+      
    }
    
    public void up() {
