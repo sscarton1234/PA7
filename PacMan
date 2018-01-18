@@ -4,19 +4,76 @@ import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import javafx.scene.shape.Circle;
 import java.awt.geom.Ellipse2D;
-import javax.swing.JComponent;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+import java.awt.geom.*;
 
-public class PacMan extends JComponent {
-   public void paintComponent(Graphics g) {
+public class PacMan extends JPanel implements ActionListener, KeyListener {
    
+   Timer t = new Timer(5, this);
+   double x = 0, y = 0, velx =0, vely = 0;
+   
+   public PacMan(){
+      t.start();
+      addKeyListener(this);
+      setFocusable(true);
+      setFocusTraversalKeysEnabled(false);
+   }
+   
+   public void paintComponent(Graphics g){
       Graphics2D graphicsObj = (Graphics2D) g;
       
       Ellipse2D.Double pac = new Ellipse2D.Double(475, 475, 50, 50);
       Color color = new Color(255, 255, 0);
       graphicsObj.setColor(color);
       graphicsObj.fill(pac);
-      
-      return;
+   }
    
+   public void actionPerformed(ActionEvent e) {
+      repaint();
+      x += velx;
+      y += vely;
+   }
+   
+   public void up() {
+      vely = -1.5;
+      velx = 0;
+   } 
+   
+   public void down() {
+      vely = 1.5;
+      velx = 0;
+   } 
+   
+   public void left() {
+      vely = 0;
+      velx = -1.5;
+   }
+   
+   public void right() {
+      vely = 0;
+      velx = 1.5;
+   }
+   
+   public void keyPressed(KeyEvent e) {
+      int code = e.getKeyCode();
+      if(code == KeyEvent.VK_UP){
+         up();
+      }
+      if(code == KeyEvent.VK_DOWN){
+         down();
+      }
+      if(code == KeyEvent.VK_RIGHT){
+         right();
+      }
+      if(code == KeyEvent.VK_LEFT){
+         left();
+      }
+   }
+   
+   public void keyReleased(KeyEvent event) {
+   }
+   public void keyTyped(KeyEvent event) {
    }
 }
