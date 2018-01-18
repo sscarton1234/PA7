@@ -1,1 +1,39 @@
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Rectangle;
+import javafx.scene.shape.Circle;
+import java.awt.geom.Ellipse2D;
+import javax.swing.JComponent;
 
+public class Background extends JComponent {
+   public void paintComponent(Graphics g) {
+   
+      Graphics2D graphicsObj = (Graphics2D) g;
+      
+      
+      Rectangle background = new Rectangle(0, 0, 1000, 1000);  
+      Color color = new Color(0, 0, 0);
+      graphicsObj.setColor(color);
+      graphicsObj.fill(background);
+
+      Rectangle rectangle = new Rectangle(400, 450, 200, 100);  
+      color = new Color(0, 0, 255);
+      graphicsObj.setColor(color);
+      graphicsObj.draw(rectangle);
+            
+      Ellipse2D.Double food = new Ellipse2D.Double(100, 100, 15, 15);
+      color = new Color(255, 255, 255);
+      graphicsObj.setColor(color);
+      graphicsObj.fill(food);
+      
+      Ellipse2D.Double powerSwitch = new Ellipse2D.Double(140, 95, 25, 25);
+      color = new Color(255, 255, 255);
+      graphicsObj.setColor(color);
+      graphicsObj.fill(powerSwitch);
+
+      
+      return;
+   
+   }
+}
