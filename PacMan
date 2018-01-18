@@ -22,12 +22,9 @@ public class PacMan extends JPanel implements ActionListener, KeyListener {
    }
    
    public void paintComponent(Graphics g){
-      Graphics2D graphicsObj = (Graphics2D) g;
-      
-      Ellipse2D.Double pac = new Ellipse2D.Double(475, 475, 50, 50);
-      Color color = new Color(255, 255, 0);
-      graphicsObj.setColor(color);
-      graphicsObj.fill(pac);
+      super.paintComponent(g);
+      Graphics2D g2 = (Graphics2D) g;
+      g2.fill(new Ellipse2D.Double(x, y, 40, 40));
    }
    
    public void actionPerformed(ActionEvent e) {
