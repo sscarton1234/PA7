@@ -11,19 +11,8 @@ public class PacMan extends JComponent {
    
       Graphics2D graphicsObj = (Graphics2D) g;
       
-      
-      Rectangle background = new Rectangle(0, 0, 1000, 1000);  
-      Color color = new Color(0, 0, 0);
-      graphicsObj.setColor(color);
-      graphicsObj.fill(background);
-
-      Rectangle rectangle = new Rectangle(400, 450, 200, 100);  
-      color = new Color(0, 0, 255);
-      graphicsObj.setColor(color);
-      graphicsObj.draw(rectangle);
-      
       Ellipse2D.Double pac = new Ellipse2D.Double(475, 475, 50, 50);
-      color = new Color(255, 255, 0);
+      Color color = new Color(255, 255, 0);
       graphicsObj.setColor(color);
       graphicsObj.fill(pac);
       
