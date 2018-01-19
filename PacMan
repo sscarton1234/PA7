@@ -10,12 +10,16 @@ import java.awt.event.*;
 import java.awt.geom.*;
 import java.awt.Robot;
 import java.awt.AWTException;
+import java.awt.Image;
 
 public class PacMan extends JPanel implements ActionListener, KeyListener {
    
    Timer t = new Timer(1, this);
    double x = 0, y = 0, velx = 0, vely = 0;
-   boolean wall = false;
+   boolean wall = false, normal = true;
+   int count = 0;
+   private Image dbImage;
+   private Graphics dbg;
    
    public PacMan(){
       t.start();
@@ -30,21 +34,36 @@ public class PacMan extends JPanel implements ActionListener, KeyListener {
 
       super.paintComponent(g);
       
+      //Black Background
       g2.setColor(Color.BLACK);
-      Rectangle2D.Double r1 = new Rectangle2D.Double(0, 0, 1000, 1000);
-      g2.fill(r1);
+      g2.fill(new Rectangle2D.Double(0, 0, 1000, 1000));
       
+      //All White Food
       g2.setColor(Color.white);
       
+      Ellipse2D.Double powerUp = new Ellipse2D.Double(140, 95, 25, 25);
+      g2.fill(powerUp);
       g2.fill(new Ellipse2D.Double(100, 100, 15, 15));
-      g2.fill(new Ellipse2D.Double(140, 95, 25, 25));
       
-      g2.setColor(Color.yellow);
-      
+      //PACMAN      
       Ellipse2D.Double pacman = new Ellipse2D.Double(x, y, 40, 40);
+      if(normal) {
+         g2.setColor(Color.yellow);
+         
+      }
+      else {
+         
+         g2.setColor(Color.green);
+         count++;
+         if(count == 1000) normal = true;    //Only power up pacman for a few seconds
+   
+      }
+      
       g2.fill(pacman);
       
+      //All Blue Walls
       g2.setColor(Color.blue);
+      
       Rectangle2D.Double r2 = new Rectangle2D.Double(400, 450, 200, 100);
       g2.draw(r2);
       
@@ -53,19 +72,37 @@ public class PacMan extends JPanel implements ActionListener, KeyListener {
       
       g2.drawLine(475, 450, 475, 440);
       g2.drawLine(525, 450, 525, 440);
-      
+            
+      //Pink Rectangle
       g2.setColor(Color.pink);
       
-      Rectangle2D.Double r4 = new Rectangle2D.Double(477, 442, 48, 6);
-      g2.fill(r4);
-      
+      g2.fill(new Rectangle2D.Double(477, 442, 48, 6));
+            
+      //OTHER BLACK
       g2.setColor(Color.black);
       g2.drawLine(475, 450, 525, 450);
       g2.drawLine(475, 440, 525, 440);
       
+      //STATUS AILMENTS
       if(pacman.intersects(r3)) wall = true;    //Make sure Pac hasnt intersected rectangle
+      
+      if(pacman.contains(140, 95, 20, 20)) {    //Power up Pacman
+      
+         g2.fill(powerUp);
+         normal = false;
+      
+      }
    }
+   /*          //Should make it run smoother
+   public void paint(Graphics g) {
    
+      dbImage = createImage(getWidth(), getHeight());
+      dbg = dbImage.getGraphics();
+      paintComponent(dbg);
+      g.drawImage( dbImage, 0, 0, this); 
+   
+   }
+   */
    public void actionPerformed(ActionEvent e) {
       repaint();
       
