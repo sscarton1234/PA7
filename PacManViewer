@@ -13,7 +13,6 @@ public class PacManViewer {
    
       JFrame pacFrame = new JFrame();
       
-      Background background = new Background();
       PacMan pacman = new PacMan();
       
       pacFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -22,7 +21,6 @@ public class PacManViewer {
 
       pacFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);    //End program when JFrame is closed
       
-      pacFrame.add(background);
       pacFrame.add(pacman);
       
       pacFrame.setVisible(true);
