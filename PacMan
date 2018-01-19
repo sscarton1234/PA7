@@ -63,7 +63,7 @@ public class PacMan extends JPanel implements ActionListener, KeyListener {
       g2.drawLine(475, 450, 525, 450);
       g2.drawLine(475, 440, 525, 440);
       
-      if(pacman.intersects(r3)) wall = true;
+      if(pacman.intersects(r3)) wall = true;    //Make sure Pac hasnt intersected rectangle
    }
    
    public void actionPerformed(ActionEvent e) {
@@ -77,9 +77,9 @@ public class PacMan extends JPanel implements ActionListener, KeyListener {
       }
       else{
       
-         x -= velx;
-         y -= vely;
-         velx = 0;
+         x -= velx;     //If Pac is at a wall, return him to outside of wall
+         y -= vely;     
+         velx = 0;      //And set velocity to zero
          vely = 0;
          wall = false;
       
@@ -127,5 +127,5 @@ public class PacMan extends JPanel implements ActionListener, KeyListener {
    }
    public void keyTyped(KeyEvent event) {
    }
-
+   
 }
