@@ -13,7 +13,7 @@ import java.awt.AWTException;
 
 public class PacMan extends JPanel implements ActionListener, KeyListener {
    
-   Timer t = new Timer(5, this);
+   Timer t = new Timer(1, this);
    double x = 0, y = 0, velx = 0, vely = 0;
    
    public PacMan(){
@@ -32,13 +32,12 @@ public class PacMan extends JPanel implements ActionListener, KeyListener {
       g2.setColor(Color.BLACK);
       g2.fill(new Rectangle(0, 0, 1000, 1000));
       
-      g2.setColor(Color.yellow);
-      g2.fill(new Ellipse2D.Double(x, y, 40, 40));
-      
       g2.setColor(Color.white);
       g2.fill(new Ellipse2D.Double(100, 100, 15, 15));
-
       g2.fill(new Ellipse2D.Double(140, 95, 25, 25));
+      
+      g2.setColor(Color.yellow);
+      g2.fill(new Ellipse2D.Double(x, y, 40, 40));
       
       g2.setColor(Color.blue);
       g2.draw(new Rectangle(400, 450, 200, 100));
@@ -57,9 +56,8 @@ public class PacMan extends JPanel implements ActionListener, KeyListener {
    public void actionPerformed(ActionEvent e) {
       repaint();
       try{
-         Robot robot = new Robot();
-         Color temp = robot.getPixelColor((int)(x + velx),(int)(y + vely));
-         if(!temp.equals(Color.blue)) {
+         boolean wall = checkWall(x, y, velx, vely);
+         if(wall) {
          
             x += velx;
             y += vely;
@@ -74,23 +72,23 @@ public class PacMan extends JPanel implements ActionListener, KeyListener {
    }
    
    public void up() {
-      vely = -1.5;
+      vely = -10;
       velx = 0;
    } 
    
    public void down() {
-      vely = 1.5;
+      vely = 10;
       velx = 0;
    } 
    
    public void left() {
       vely = 0;
-      velx = -1.5;
+      velx = -10;
    }
    
    public void right() {
       vely = 0;
-      velx = 1.5;
+      velx = 10;
    }
    
    public void keyPressed(KeyEvent e) {
@@ -112,5 +110,25 @@ public class PacMan extends JPanel implements ActionListener, KeyListener {
    public void keyReleased(KeyEvent event) {
    }
    public void keyTyped(KeyEvent event) {
+   }
+   
+   public boolean checkWall(double x, double y, double velx, double vely) throws AWTException {
+   
+      Robot robot = new Robot();
+      
+      //Check space
+      Color temp = robot.getPixelColor((int)(x + velx),(int)(y + vely));
+      if(temp.equals(Color.blue)) return false;
+      
+      //Check space + 1
+      temp = robot.getPixelColor((int)(x + velx + 1),(int)(y + vely + 1));
+      if(temp.equals(Color.blue)) return false;
+      
+      //Check space + 2
+      temp = robot.getPixelColor((int)(x + velx + 2),(int)(y + vely + 2));
+      if(temp.equals(Color.blue)) return false;
+      
+      return true;
+   
    }
 }
