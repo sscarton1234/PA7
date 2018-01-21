@@ -11,6 +11,7 @@ import java.awt.geom.*;
 import java.awt.Robot;
 import java.awt.AWTException;
 import java.awt.Image;
+import java.awt.geom.RoundRectangle2D;
 
 public class PacMan extends JPanel implements ActionListener, KeyListener {
    
@@ -64,11 +65,10 @@ public class PacMan extends JPanel implements ActionListener, KeyListener {
       //All Blue Walls
       g2.setColor(Color.blue);
       
-      Rectangle2D.Double r2 = new Rectangle2D.Double(400, 450, 200, 100);
-      g2.draw(r2);
+      g2.draw(new Rectangle2D.Double(400, 450, 200, 100));
       
-      Rectangle2D.Double r3 = new Rectangle2D.Double(390, 440, 220, 120);
-      g2.draw(r3);
+      Rectangle2D.Double r1 = new Rectangle2D.Double(390, 440, 220, 120);
+      g2.draw(r1);
       
       g2.drawLine(475, 450, 475, 440);
       g2.drawLine(525, 450, 525, 440);
@@ -84,9 +84,9 @@ public class PacMan extends JPanel implements ActionListener, KeyListener {
       g2.drawLine(475, 440, 525, 440);
       
       //STATUS AILMENTS
-      if(pacman.intersects(r3)) wall = true;    //Make sure Pac hasnt intersected rectangle
+      if(pacman.intersects(r1)) wall = true;    //Make sure Pac hasnt intersected rectangle
       
-      if(pacman.contains(140, 95, 20, 20)) {    //Power up Pacman
+      if(pacman.contains(powerUp.getCenterX(), powerUp.getCenterY())) {    //Power up Pacman
       
          g2.fill(powerUp);
          normal = false;
