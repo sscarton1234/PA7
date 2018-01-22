@@ -171,12 +171,33 @@ public class PacMan extends JPanel implements KeyListener, ActionListener {
 	      
 	    g2.draw(new Rectangle2D.Double(500, 450, 200, 100));
 	      
-	    Rectangle2D.Double r1 = new Rectangle2D.Double(490, 440, 220, 120);
+	    Rectangle2D.Double r1 = new Rectangle2D.Double(510, 460, 180, 80);
 	    g2.draw(r1);
-	    RoundRectangle2D.Double r2 = new RoundRectangle2D.Double(490, 610, 220, 25, 25, 25);
+	    RoundRectangle2D.Double r2 = new RoundRectangle2D.Double(500, 600, 200, 50, 25, 25);
 	    g2.draw(r2);
-	    g2.drawLine(575, 450, 575, 440);
-	    g2.drawLine(625, 450, 625, 440);
+       RoundRectangle2D.Double r3 = new RoundRectangle2D.Double(400, 500, 50, 150, 25, 25);
+	    g2.draw(r3);
+       RoundRectangle2D.Double r4 = new RoundRectangle2D.Double(750, 525, 50, 125, 25, 25);
+	    g2.draw(r4);
+       RoundRectangle2D.Double r5 = new RoundRectangle2D.Double(400, 250, 50, 200, 25, 25);
+	    g2.draw(r5);
+       RoundRectangle2D.Double r6 = new RoundRectangle2D.Double(750, 250, 50, 225, 25, 25);
+	    g2.draw(r6);
+       RoundRectangle2D.Double r7 = new RoundRectangle2D.Double(500, 250, 200, 50, 25, 25);
+	    g2.draw(r7);
+       RoundRectangle2D.Double r8 = new RoundRectangle2D.Double(575, 300, 50, 100, 25, 25);
+	    g2.draw(r8);
+	    g2.drawLine(575, 450, 575, 460);
+	    g2.drawLine(625, 450, 625, 460);
+       
+       g2.setColor(Color.black);
+       g2.drawLine(575, 450, 625, 450);
+       g2.drawLine(575, 460, 625, 460);
+       
+       g2.setColor(Color.pink);
+       g2.fill(new Rectangle2D.Double(577, 452, 48, 6));
+       
+       g2.setColor(Color.blue);
 	    
 	    //TEXT
 	    /*g2.setColor(Color.CYAN);
@@ -241,7 +262,21 @@ public class PacMan extends JPanel implements KeyListener, ActionListener {
 		map.get(12).get(9).setWall();		//WALL
 		map.get(12).get(10).setWall();		//WALL
 		map.get(12).get(11).setWall();		//WALL
-		
+		map.get(5).get(6).setWall();    //WALL
+      map.get(6).get(6).setWall();    //WALL
+      map.get(7).get(6).setWall();    //WALL
+      map.get(8).get(6).setWall();    //WALL
+      
+      map.get(5).get(8).setWall();    //WALL
+      map.get(5).get(9).setWall();    //WALL
+      map.get(5).get(10).setWall();    //WALL
+      map.get(5).get(11).setWall();    //WALL
+      
+      map.get(5).get(13).setWall();    //WALL
+      map.get(6).get(13).setWall();    //WALL
+      map.get(7).get(13).setWall();    //WALL
+      map.get(8).get(13).setWall();    //WALL
+      
 		map.get(1).get(1).setPowerUp(true);		//PowerUp
 		map.get(18).get(1).setPowerUp(true);	//PowerUp
 		map.get(1).get(18).setPowerUp(true);	//PowerUp
