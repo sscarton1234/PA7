@@ -1,1 +1,78 @@
 
+import java.awt.geom.Ellipse2D;
+
+public class PacManCell {
+	
+	boolean wall = false, dot = true, powerUp = false;
+	double x, y;
+	
+	public void setWall() {		//Make a wall
+		
+		wall = true;
+		dot = false;
+		
+	}
+	
+	public void setPowerUp(boolean choice) {
+		
+		powerUp = choice;
+		dot = false;
+		
+	}
+	
+	public boolean isPowerUp() {
+		
+		return powerUp;
+		
+	}
+	
+	public boolean isWall() {
+		
+		return wall;
+		
+	}
+	
+	public void noDot() {
+		
+		dot = false;
+		
+	}
+	
+	public boolean isDot() {
+		
+		return dot;
+		
+	}
+		
+	public double getCenterX() {		//Get the center
+		
+		return x + 25;
+		
+	}
+	
+	public double getCenterY() {		//Get the Center
+		
+		return y + 25;
+		
+		
+	}
+	
+	
+	
+	public PacManCell(double spotX, double spotY) {		//Constructor
+		
+		this.x = spotX;
+		this.y = spotY;
+	
+	}
+	
+	public int[] move(Ellipse2D.Double pacman, double velX, double velY) {		//get new coordinates for pacman;
+		
+		int[] num = new int[2];
+		num[0] = (int) (pacman.getCenterX() + velX);
+		num[1] = (int) (pacman.getCenterY() + velY);
+		return num;
+		
+	}
+	
+}
