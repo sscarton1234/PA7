@@ -1,180 +1,305 @@
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Rectangle;
-import javafx.scene.shape.Circle;
-import java.awt.geom.Ellipse2D;
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.*;
-import java.awt.geom.*;
-import java.awt.Robot;
-import java.awt.AWTException;
 import java.awt.Image;
+import java.awt.event.*;
+import java.awt.geom.Ellipse2D;
+import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
+import java.util.ArrayList;
 
-public class PacMan extends JPanel implements ActionListener, KeyListener {
-   
-   Timer t = new Timer(5, this);
-   double x = 475, y = 565, velx = 0, vely = 0;
-   boolean wall = false, normal = true;
-   int count = 0;
-   private Image dbImage;
-   private Graphics dbg;
-   
-   public PacMan(){
-      t.start();
-      addKeyListener(this);
-      setFocusable(true);
-      setFocusTraversalKeysEnabled(false);
-   }
-   
-   public void paintComponent(Graphics g){
-   
-      Graphics2D g2 = (Graphics2D) g;
+import javax.swing.JPanel;
+import javax.swing.*;
 
-      super.paintComponent(g);
-      
-      //Black Background
-      g2.setColor(Color.BLACK);
-      g2.fill(new Rectangle2D.Double(0, 0, 1000, 1000));
-      
-      //All White Food
-      g2.setColor(Color.white);
-      
-      Ellipse2D.Double powerUp = new Ellipse2D.Double(140, 95, 25, 25);
-      g2.fill(powerUp);
-      g2.fill(new Ellipse2D.Double(100, 100, 15, 15));
-      
-      //PACMAN      
-      Ellipse2D.Double pacman = new Ellipse2D.Double(x, y, 40, 40);
-      if(normal) {
-         g2.setColor(Color.yellow);
-         
-      }
-      else {
-         
-         g2.setColor(Color.green);
-         count++;
-         if(count == 700) normal = true;    //Only power up pacman for a few seconds
-   
-      }
-      
-      g2.fill(pacman);
-      
-      //All Black Wall Fillers
-      
-      
-      //All Blue Walls
-      g2.setColor(Color.blue);
-      
-      g2.draw(new Rectangle2D.Double(400, 450, 200, 100));
-      
-      Rectangle2D.Double r1 = new Rectangle2D.Double(390, 440, 220, 120);
-      g2.draw(r1);
-      RoundRectangle2D.Double r2 = new RoundRectangle2D.Double(390, 610, 220, 25, 25, 25);
-      g2.draw(r2);
-      RoundRectangle2D.Double r3 = new RoundRectangle2D.Double(390, 290, 220, 25, 25, 25);
-      g2.draw(r3);
-      RoundRectangle2D.Double r4 = new RoundRectangle2D.Double(487.5, 290, 25, 100, 25, 25);
-      g2.draw(r4);
-      g2.setColor(Color.black);
-      Ellipse2D.Double f1 = new Ellipse2D.Double(487.5, 290, 25, 25);
-      g2.setColor(Color.blue);
-      g2.drawLine(475, 450, 475, 440);
-      g2.drawLine(525, 450, 525, 440);
-            
-      //Pink Rectangle
-      g2.setColor(Color.pink);
-      
-      g2.fill(new Rectangle2D.Double(477, 442, 48, 6));
-            
-      //OTHER BLACK
-      g2.setColor(Color.black);
-      g2.drawLine(475, 450, 525, 450);
-      g2.drawLine(475, 440, 525, 440);
-      
-      //STATUS AILMENTS
-      if(pacman.intersects(r1) || r2.intersects(pacman.getMinX(), pacman.getMinY(), 40, 40)) wall = true;    //Make sure Pac hasnt intersected rectangle
-      if(r3.intersects(pacman.getMinX(), pacman.getMinY(), 50, 50) || r4.intersects(pacman.getMinX(), pacman.getMinY(), 50, 50)) wall = true;
-      
-      if(pacman.contains(powerUp.getCenterX(), powerUp.getCenterY())) {    //Power up Pacman
-      
-         g2.fill(powerUp);
-         normal = false;
-      
-      }
-   }
-   /*          //Should make it run smoother
-   public void paint(Graphics g) {
-   
-      dbImage = createImage(getWidth(), getHeight());
-      dbg = dbImage.getGraphics();
-      paintComponent(dbg);
-      g.drawImage( dbImage, 0, 0, this); 
-   
-   }
-   */
-   public void actionPerformed(ActionEvent e) {
-      repaint();
-      
-      if(!wall) {
-      
-         x += velx;
-         y += vely;
-         
-      }
-      else{
-      
-         x -= velx;     //If Pac is at a wall, return him to outside of wall
-         y -= vely;     
-         velx = 0;      //And set velocity to zero
-         vely = 0;
-         wall = false;
-      
-      }
-    
-   }
-   
-   public void up() {
-      vely = -2.5;
-      velx = 0;
-   } 
-   
-   public void down() {
-      vely = 2.5;
-      velx = 0;
-   } 
-   
-   public void left() {
-      vely = 0;
-      velx = -2.5;
-   }
-   
-   public void right() {
-      vely = 0;
-      velx = 2.5;
-   }
-   
-   public void keyPressed(KeyEvent e) {
-      int code = e.getKeyCode();
-      if(code == KeyEvent.VK_UP){
-         up();
-      }
-      if(code == KeyEvent.VK_DOWN){
-         down();
-      }
-      if(code == KeyEvent.VK_RIGHT){
-         right();
-      }
-      if(code == KeyEvent.VK_LEFT){
-         left();
-      }
-   }
-   
-   public void keyReleased(KeyEvent event) {
-   }
-   public void keyTyped(KeyEvent event) {
-   }
-   
+public class PacMan extends JPanel implements KeyListener, ActionListener {
+	
+	Timer t = new Timer(5, this);
+	double pacX = 600, pacY = 900, velX = 0, velY = 0, a = 200, b = 200;
+	ArrayList<ArrayList<PacManCell>> map = new ArrayList<>();
+	ArrayList<Integer> currentUL = new ArrayList<>();
+	ArrayList<Integer> currentDR = new ArrayList<>();
+	ArrayList<Integer> currentUR = new ArrayList<>();
+	ArrayList<Integer> currentDL = new ArrayList<>();
+	int score = 0, strong = 0, numLives = 3;
+	
+	private Image dbImage;
+	private Graphics dbg;
+	
+	
+	public void actionPerformed(ActionEvent e) {
+		
+		if((int) ((pacX - 100) / 50) != currentUL.get(0)) currentUL.set(0, (int) ((pacX - 100)/ 50));		//Find which cell the pacman is in for Up/Left
+		if((int) (pacY / 50) != currentUL.get(1)) currentUL.set(1, (int) (pacY/ 50));
+		
+		if((int) ((pacX + 45 - 100) / 50) != currentDR.get(0)) currentDR.set(0, (int) ((pacX + 45 - 100)/ 50));		//Find which cell the pacman is in for Down/Right
+		if((int) ((pacY + 45) / 50) != currentDR.get(1)) currentDR.set(1, (int) ((pacY + 45)/ 50));
+		
+		if((int) ((pacX + 45 - 100) / 50) != currentUR.get(0)) currentUR.set(0, (int) ((pacX + 45 - 100)/ 50));		//Find which cell the pacman is in for Up/Right
+		if((int) ((pacY) / 50) != currentUR.get(1)) currentUR.set(1, (int) ((pacY)/ 50));
+		
+		if((int) ((pacX - 100) / 50) != currentDL.get(0)) currentDL.set(0, (int) ((pacX - 100)/ 50));		//Find which cell the pacman is in for Down/Left
+		if((int) ((pacY + 45) / 50) != currentDL.get(1)) currentDL.set(1, (int) ((pacY + 45)/ 50));
+		
+		if(map.get(currentDR.get(1)).get(currentDR.get(0)).isWall()) {		//Prevent from moving into walls
+			
+			pacX -= velX;
+			pacY -= velY;
+			velX = 0;
+			velY = 0;
+			
+		}
+		else if(map.get(currentUR.get(1)).get(currentUR.get(0)).isWall()) {
+			
+			pacX -= velX;
+			pacY -= velY;
+			velX = 0;
+			velY = 0;
+			
+		}
+		else if(map.get(currentDL.get(1)).get(currentDL.get(0)).isWall()) {
+			
+			pacX -= velX;
+			pacY -= velY;
+			velX = 0;
+			velY = 0;
+			
+		}
+		else if(map.get(currentUL.get(1)).get(currentUL.get(0)).isWall()) {
+		
+			pacX -= velX;
+			pacY -= velY;
+			velX = 0;
+			velY = 0;
+		
+		}
+		else {
+			
+			pacX += velX;
+			pacY += velY;
+			
+		}
+		
+		if(map.get(currentDR.get(1)).get(currentDR.get(0)).isDot() && map.get(currentUL.get(1)).get(currentUL.get(0)).isDot()) {	//If the current space is a dot
+			
+			score += 10;		//Add to score
+			map.get(currentDR.get(1)).get(currentDR.get(0)).noDot(); //Make the spot no longer a dot
+			
+			
+		}
+		
+		if(map.get(currentDR.get(1)).get(currentDR.get(0)).isPowerUp() && map.get(currentUL.get(1)).get(currentUL.get(0)).isPowerUp()) {	//If the current space is a powerUp
+			
+			map.get(currentDR.get(1)).get(currentDR.get(0)).setPowerUp(false);
+			strong++;
+			
+		}
+
+		repaint();		
+		
+	}
+	
+	public void paint(Graphics g) {
+		   
+	      dbImage = createImage(getWidth(), getHeight());
+	      dbg = dbImage.getGraphics();
+	      paintComponent(dbg);
+	      g.drawImage( dbImage, 0, 0, this); 
+	   
+	   }
+	
+	
+	public void paintComponent(Graphics g) {
+		
+		Graphics2D g2 = (Graphics2D) g;
+		
+		super.paintComponents(g);
+		
+		//BACKGROUND
+		g2.setColor(Color.BLACK);
+		Rectangle2D.Double background = new Rectangle2D.Double(0, 0, 1200, 1000);
+		g2.fill(background);
+		
+		// Ghost!!
+		Ellipse2D.Double ghost = new Ellipse2D.Double(a,  b,  40,  40);
+		g2.fill(ghost);
+		
+		//PACMAN
+		Ellipse2D.Double pacman = new Ellipse2D.Double(pacX, pacY, 45, 45);
+		if((strong % 1000) == 0) {			//If no Powerup then yellow pacman
+
+			g2.setColor(Color.YELLOW);
+			
+		}
+		else if(((strong % 250) <= 15) || (((strong % 1000) > 750) && ((strong % 50) <= 30))) {		//If Powerup almost ran out start to blink
+			
+			g2.setColor(Color.YELLOW);
+			strong++;
+			
+		}
+		else {								//If Powered up then green pacman
+			g2.setColor(Color.GREEN);
+			strong++;
+		}
+			
+		g2.fill(pacman);
+		
+		//FOOD
+		g2.setColor(Color.WHITE);
+		for(int i = 0; i < 20; i++) {
+			for(int j = 0; j < 20; j++) {
+							
+				if(map.get(i).get(j).isDot()) {
+					
+					
+					Ellipse2D.Double food = new Ellipse2D.Double(map.get(i).get(j).getCenterX() - 7.5 + 100, map.get(i).get(j).getCenterY() - 7.5, 15, 15);	//Make the small dots
+					g2.fill(food);
+					
+				}
+				else if(map.get(i).get(j).isPowerUp()) {
+					
+					Ellipse2D.Double food = new Ellipse2D.Double(map.get(i).get(j).getCenterX() - 12.5 + 100, map.get(i).get(j).getCenterY() - 12.5, 25, 25);	//Make the big dots
+					g2.fill(food);
+					
+				}
+				
+			}
+		}
+		
+		//WALLS
+		g2.setColor(Color.blue);
+	      
+	    g2.draw(new Rectangle2D.Double(500, 450, 200, 100));
+	      
+	    Rectangle2D.Double r1 = new Rectangle2D.Double(490, 440, 220, 120);
+	    g2.draw(r1);
+	    RoundRectangle2D.Double r2 = new RoundRectangle2D.Double(490, 610, 220, 25, 25, 25);
+	    g2.draw(r2);
+	    g2.drawLine(575, 450, 575, 440);
+	    g2.drawLine(625, 450, 625, 440);
+	    
+	    //TEXT
+	    /*g2.setColor(Color.CYAN);
+	    g2.drawString("Pacman X: " + pacX, 100, 100);
+	    g2.drawString("Pacman Y: " + pacY, 100, 120);
+	    g2.drawString("CURRENT UL X: " + currentUL.get(0) + "   Current UL Y: " + currentUL.get(1), 100, 200);
+	    g2.drawString("CURRENT DR X: " + currentDR.get(0) + "   Current DR Y: " + currentDR.get(1), 100, 220);
+	    g2.drawString("CURRENT UR X: " + currentUR.get(0) + "   Current UR Y: " + currentUR.get(1), 100, 300);
+	    g2.drawString("CURRENT DL X: " + currentDL.get(0) + "   Current DL Y: " + currentDL.get(1), 100, 320);
+		*/
+	    
+	    Font currentFont = g.getFont();
+	    Font newFont = currentFont.deriveFont(currentFont.getSize() * 3F);
+	    g.setFont(newFont);
+	    g2.drawString("Player 1", 10, 100);
+	    g2.drawString("Score:", 25, 150);
+	    g2.drawString(Integer.toString(score), 40, 200);
+	    
+	    g2.drawString("LIVES:", 20, 800);
+	    g2.drawString(Integer.toString(numLives), 60, 850);
+
+		
+		
+		
+		
+	}
+	
+	public PacMan() {
+	
+		t.start();
+		addKeyListener(this);
+	    setFocusable(true);
+	    setFocusTraversalKeysEnabled(false);
+	    for(int i = 0; i < 21; i++) {
+			
+			map.add(new ArrayList<PacManCell>());
+						
+		}
+		
+		for(int i = 0; i < 20; i++) {
+			for(int j = 0; j < 20; j++) {
+				
+				map.get(i).add(new PacManCell(j * 50, i * 50));		//Initiallize the Cells
+				if(i == 19 || j == 19 || j == 0 || i == 0) {
+					map.get(i).get(j).setWall();
+				}
+			
+			}
+			
+		}
+		
+		map.get(9).get(8).setWall();		//WALL
+		map.get(9).get(9).setWall();		//WALL
+		map.get(9).get(10).setWall();		//WALL
+		map.get(9).get(11).setWall();		//WALL
+		map.get(10).get(8).setWall();		//WALL
+		map.get(10).get(9).setWall();		//WALL
+		map.get(10).get(10).setWall();		//WALL
+		map.get(10).get(11).setWall();		//WALL
+		
+		map.get(12).get(8).setWall();		//WALL
+		map.get(12).get(9).setWall();		//WALL
+		map.get(12).get(10).setWall();		//WALL
+		map.get(12).get(11).setWall();		//WALL
+		
+		map.get(1).get(1).setPowerUp(true);		//PowerUp
+		map.get(18).get(1).setPowerUp(true);	//PowerUp
+		map.get(1).get(18).setPowerUp(true);	//PowerUp
+		map.get(18).get(18).setPowerUp(true);	//PowerUp
+				
+		
+		currentUL.add(0);		//Initialize the ArrayLists to be 2 ints long
+		currentUL.add(0);		// ^^^^^
+		currentDR.add(0);		// ^^^^^
+		currentDR.add(0);		// ^^^^^
+		currentUR.add(0);		// ^^^^^
+		currentUR.add(0);		// ^^^^^
+		currentDL.add(0);		// ^^^^^
+		currentDL.add(0);		// ^^^^^
+		
+	}
+	
+	public void up() {
+	      velY = -3;
+	      velX = 0;
+	   } 
+	   
+	   public void down() {
+	      velY = 3;
+	      velX = 0;
+	   } 
+	   
+	   public void left() {
+	      velY = 0;
+	      velX = -3;
+	   }
+	   
+	   public void right() {
+	      velY = 0;
+	      velX = 3;
+	   }
+
+	
+	public void keyPressed(KeyEvent e) {
+	      int code = e.getKeyCode();
+	      if(code == KeyEvent.VK_UP){
+	         up();
+	      }
+	      if(code == KeyEvent.VK_DOWN){
+	         down();
+	      }
+	      if(code == KeyEvent.VK_RIGHT){
+	         right();
+	      }
+	      if(code == KeyEvent.VK_LEFT){
+	         left();
+	      }
+	   }
+	   
+	public void keyReleased(KeyEvent event) {
+	}
+	public void keyTyped(KeyEvent event) {
+	}
+
+	
 }
