@@ -17,7 +17,7 @@ import javax.swing.Timer;
 
 public class PacManUpdate extends JPanel implements ActionListener, KeyListener{
 
-	double x = 600, y = 600;
+	double x = 600, y = 550;
 	int oldDirection = 0, newDirection = 0, currentCellX = 10, currentCellY = 12, score = 0, strong = 0;
 	ArrayList<ArrayList<PacManCell>> map = new ArrayList<>();
 	Timer t = new Timer(1, this);
@@ -27,7 +27,7 @@ public class PacManUpdate extends JPanel implements ActionListener, KeyListener{
 	public void actionPerformed(ActionEvent arg0) {
 		// TODO Auto-generated method stub
 		movement(newDirection);
-		//repaint();
+		repaint();
 	}
 	
 	public void movement(int direction) {
@@ -159,7 +159,7 @@ public class PacManUpdate extends JPanel implements ActionListener, KeyListener{
 		//FOOD
 		g2.setColor(Color.WHITE);
 		for(int i = 0; i < 20; i++) {
-			for(int j = 0; j < 20; j++) {
+			for(int j = 0; j < 21; j++) {
 									
 				if(map.get(i).get(j).isDot()) {
 							
@@ -182,33 +182,75 @@ public class PacManUpdate extends JPanel implements ActionListener, KeyListener{
 		//WALLS
 		g2.setColor(Color.blue);
 	      
-	    g2.draw(new Rectangle2D.Double(500, 450, 200, 100));
+	    g2.draw(new Rectangle2D.Double(500, 450, 250, 100));
 	      
-	    Rectangle2D.Double r1 = new Rectangle2D.Double(510, 460, 180, 80);
+	    Rectangle2D.Double r1 = new Rectangle2D.Double(510, 460, 230, 80);
 	    g2.draw(r1);
-	    RoundRectangle2D.Double r2 = new RoundRectangle2D.Double(500, 600, 200, 50, 25, 25);
+	    RoundRectangle2D.Double r2 = new RoundRectangle2D.Double(500, 600, 250, 50, 25, 25);
 	    g2.draw(r2);
        RoundRectangle2D.Double r3 = new RoundRectangle2D.Double(400, 500, 50, 150, 25, 25);
 	    g2.draw(r3);
-       RoundRectangle2D.Double r4 = new RoundRectangle2D.Double(750, 525, 50, 125, 25, 25);
+       RoundRectangle2D.Double r4 = new RoundRectangle2D.Double(800, 500, 50, 150, 25, 25);
 	    g2.draw(r4);
        RoundRectangle2D.Double r5 = new RoundRectangle2D.Double(400, 250, 50, 200, 25, 25);
 	    g2.draw(r5);
-       RoundRectangle2D.Double r6 = new RoundRectangle2D.Double(750, 250, 50, 225, 25, 25);
+       RoundRectangle2D.Double r6 = new RoundRectangle2D.Double(800, 250, 50, 200, 25, 25);
 	    g2.draw(r6);
-       RoundRectangle2D.Double r7 = new RoundRectangle2D.Double(500, 250, 200, 50, 25, 25);
+       RoundRectangle2D.Double r7 = new RoundRectangle2D.Double(500, 250, 250, 50, 25, 25);
 	    g2.draw(r7);
-       RoundRectangle2D.Double r8 = new RoundRectangle2D.Double(575, 300, 50, 100, 25, 25);
+       RoundRectangle2D.Double r8 = new RoundRectangle2D.Double(600, 300, 50, 100, 25, 25);
 	    g2.draw(r8);
-	    g2.drawLine(575, 450, 575, 460);
-	    g2.drawLine(625, 450, 625, 460);
+       RoundRectangle2D.Double r9 = new RoundRectangle2D.Double(450, 350, 100, 50, 25, 25);
+	    g2.draw(r9);
+       RoundRectangle2D.Double r10 = new RoundRectangle2D.Double(700, 350, 100, 50, 25, 25);
+	    g2.draw(r10);
+       RoundRectangle2D.Double r11 = new RoundRectangle2D.Double(400, 100, 150, 100, 25, 25);
+	    g2.draw(r11);
+       RoundRectangle2D.Double r12 = new RoundRectangle2D.Double(600, 50, 50, 150, 25, 25);
+	    g2.draw(r12);
+       RoundRectangle2D.Double r13 = new RoundRectangle2D.Double(700, 100, 150, 100, 25, 25);
+	    g2.draw(r13);
+       RoundRectangle2D.Double r14 = new RoundRectangle2D.Double(200, 100, 150, 100, 25, 25);
+	    g2.draw(r14);
+       RoundRectangle2D.Double r15 = new RoundRectangle2D.Double(200, 250, 150, 50, 25, 25);
+	    g2.draw(r15);
+       RoundRectangle2D.Double r16 = new RoundRectangle2D.Double(900, 100, 150, 100, 25, 25);
+	    g2.draw(r16);
+       RoundRectangle2D.Double r17 = new RoundRectangle2D.Double(900, 250, 150, 50, 25, 25);
+	    g2.draw(r17);
+       RoundRectangle2D.Double r18 = new RoundRectangle2D.Double(150, 350, 200, 100, 25, 25);
+	    g2.draw(r18);
+       RoundRectangle2D.Double r19 = new RoundRectangle2D.Double(150, 500, 200, 100, 25, 25);
+	    g2.draw(r19);
+       RoundRectangle2D.Double r20 = new RoundRectangle2D.Double(900, 350, 200, 100, 25, 25);
+	    g2.draw(r20);
+       RoundRectangle2D.Double r21 = new RoundRectangle2D.Double(900, 500, 200, 100, 25, 25);
+	    g2.draw(r21);
+       RoundRectangle2D.Double r22 = new RoundRectangle2D.Double(200, 650, 150, 50, 25, 25);
+	    g2.draw(r22);
+       RoundRectangle2D.Double r23 = new RoundRectangle2D.Double(200, 750, 150, 100, 25, 25);
+	    g2.draw(r23);
+       RoundRectangle2D.Double r24 = new RoundRectangle2D.Double(900, 650, 150, 50, 25, 25);
+	    g2.draw(r24);
+       RoundRectangle2D.Double r25 = new RoundRectangle2D.Double(900, 750, 150, 100, 25, 25);
+	    g2.draw(r25);
+       RoundRectangle2D.Double r26 = new RoundRectangle2D.Double(600, 650, 50, 100, 25, 25);
+	    g2.draw(r26);
+       RoundRectangle2D.Double r27 = new RoundRectangle2D.Double(400, 700, 150, 200, 25, 25);
+	    g2.draw(r27);
+       RoundRectangle2D.Double r28 = new RoundRectangle2D.Double(700, 700, 150, 200, 25, 25);
+	    g2.draw(r28);
+       RoundRectangle2D.Double r29 = new RoundRectangle2D.Double(550, 800, 150, 50, 25, 25);
+	    g2.draw(r29);
+	    g2.drawLine(600, 450, 600, 460);
+	    g2.drawLine(650, 450, 650, 460);
        
        g2.setColor(Color.black);
-       g2.drawLine(575, 450, 625, 450);
-       g2.drawLine(575, 460, 625, 460);
+       g2.drawLine(600, 450, 650, 450);
+       g2.drawLine(600, 460, 650, 460);
        
        g2.setColor(Color.pink);
-       g2.fill(new Rectangle2D.Double(577, 452, 48, 6));
+       g2.fill(new Rectangle2D.Double(602, 452, 48, 6));
        
        g2.setColor(Color.blue);
 	    
@@ -216,7 +258,7 @@ public class PacManUpdate extends JPanel implements ActionListener, KeyListener{
 	    
 	    //TEXT
 	    Font currentFont = g.getFont();
-	    Font newFont = currentFont.deriveFont(currentFont.getSize() * 3F);
+	    Font newFont = currentFont.deriveFont(currentFont.getSize() * 2F);
 	    g.setFont(newFont);
 	    g2.drawString("Player 1", 10, 100);
 	    g2.drawString("Score:", 25, 150);
@@ -274,10 +316,10 @@ public class PacManUpdate extends JPanel implements ActionListener, KeyListener{
 		}
 		
 		for(int i = 0; i < 20; i++) {
-			for(int j = 0; j < 20; j++) {
+			for(int j = 0; j < 21; j++) {
 				
 				map.get(i).add(new PacManCell(j * 50, i * 50));		//Initiallize the Cells
-				if(i == 19 || j == 19 || j == 0 || i == 0) {
+				if(i == 19 || j == 20 || j == 0 || i == 0) {
 					map.get(i).get(j).setWall();
 				}
 			
@@ -293,17 +335,156 @@ public class PacManUpdate extends JPanel implements ActionListener, KeyListener{
       map.get(6).get(6).setWall();    //WALL
       map.get(7).get(6).setWall();    //WALL
       map.get(8).get(6).setWall();    //WALL
+      map.get(10).get(6).setWall();    //WALL
       map.get(11).get(6).setWall();    //WALL
-      
+      map.get(12).get(6).setWall();    //WALL
       map.get(5).get(8).setWall();    //WALL
       map.get(5).get(9).setWall();    //WALL
       map.get(5).get(10).setWall();    //WALL
       map.get(5).get(11).setWall();    //WALL
-      
-      map.get(5).get(13).setWall();    //WALL
-      map.get(6).get(13).setWall();    //WALL
+      map.get(7).get(12).setWall();    //WALL
+      map.get(5).get(14).setWall();    //WALL
       map.get(7).get(13).setWall();    //WALL
       map.get(8).get(13).setWall();    //WALL
+      map.get(7).get(7).setWall();    //WALL
+      map.get(7).get(8).setWall();    //WALL
+      map.get(6).get(10).setWall();    //WALL
+      map.get(7).get(10).setWall();    //WALL
+      map.get(10).get(13).setWall();    //WALL
+      map.get(11).get(13).setWall();    //WALL
+      map.get(12).get(13).setWall();    //WALL
+      map.get(9).get(8).setWall();    //WALL
+      map.get(10).get(8).setWall();    //WALL
+      map.get(9).get(9).setWall();    //WALL
+      map.get(10).get(9).setWall();    //WALL
+      map.get(9).get(10).setWall();    //WALL
+      map.get(10).get(10).setWall();    //WALL
+      map.get(9).get(11).setWall();    //WALL
+      map.get(10).get(11).setWall();    //WALL
+      map.get(6).get(14).setWall();    //WALL
+      map.get(7).get(14).setWall();    //WALL
+      map.get(8).get(14).setWall();    //WALL
+      map.get(10).get(14).setWall();    //WALL
+      map.get(11).get(14).setWall();    //WALL
+      map.get(12).get(14).setWall();    //WALL
+      map.get(5).get(12).setWall();    //WALL
+      map.get(2).get(2).setWall();    //WALL
+      map.get(3).get(2).setWall();    //WALL
+      map.get(5).get(2).setWall();    //WALL
+      map.get(7).get(2).setWall();    //WALL
+      map.get(8).get(2).setWall();    //WALL
+      map.get(10).get(2).setWall();    //WALL
+      map.get(11).get(2).setWall();    //WALL
+      map.get(2).get(3).setWall();    //WALL
+      map.get(3).get(3).setWall();    //WALL
+      map.get(5).get(3).setWall();    //WALL
+      map.get(7).get(3).setWall();    //WALL
+      map.get(8).get(3).setWall();    //WALL
+      map.get(10).get(3).setWall();    //WALL
+      map.get(11).get(3).setWall();    //WALL
+      map.get(2).get(4).setWall();    //WALL
+      map.get(3).get(4).setWall();    //WALL
+      map.get(5).get(4).setWall();    //WALL
+      map.get(7).get(4).setWall();    //WALL
+      map.get(8).get(4).setWall();    //WALL
+      map.get(10).get(4).setWall();    //WALL
+      map.get(11).get(4).setWall();    //WALL
+      map.get(2).get(16).setWall();    //WALL
+      map.get(3).get(16).setWall();    //WALL
+      map.get(5).get(16).setWall();    //WALL
+      map.get(7).get(16).setWall();    //WALL
+      map.get(8).get(16).setWall();    //WALL
+      map.get(10).get(16).setWall();    //WALL
+      map.get(11).get(16).setWall();    //WALL
+      map.get(2).get(17).setWall();    //WALL
+      map.get(3).get(17).setWall();    //WALL
+      map.get(5).get(17).setWall();    //WALL
+      map.get(7).get(17).setWall();    //WALL
+      map.get(8).get(17).setWall();    //WALL
+      map.get(10).get(17).setWall();    //WALL
+      map.get(11).get(17).setWall();    //WALL
+      map.get(2).get(18).setWall();    //WALL
+      map.get(3).get(18).setWall();    //WALL
+      map.get(5).get(18).setWall();    //WALL
+      map.get(7).get(18).setWall();    //WALL
+      map.get(8).get(18).setWall();    //WALL
+      map.get(10).get(18).setWall();    //WALL
+      map.get(11).get(18).setWall();    //WALL
+      map.get(7).get(1).setWall();    //WALL
+      map.get(8).get(1).setWall();    //WALL
+      map.get(10).get(1).setWall();    //WALL
+      map.get(11).get(1).setWall();    //WALL
+      map.get(7).get(19).setWall();    //WALL
+      map.get(8).get(19).setWall();    //WALL
+      map.get(10).get(19).setWall();    //WALL
+      map.get(11).get(19).setWall();    //WALL
+      map.get(2).get(6).setWall();    //WALL
+      map.get(3).get(6).setWall();    //WALL
+      map.get(2).get(7).setWall();    //WALL
+      map.get(3).get(7).setWall();    //WALL
+      map.get(2).get(8).setWall();    //WALL
+      map.get(3).get(8).setWall();    //WALL
+      map.get(2).get(12).setWall();    //WALL
+      map.get(3).get(12).setWall();    //WALL
+      map.get(2).get(13).setWall();    //WALL
+      map.get(3).get(13).setWall();    //WALL
+      map.get(2).get(14).setWall();    //WALL
+      map.get(3).get(14).setWall();    //WALL
+      map.get(1).get(10).setWall();    //WALL
+      map.get(2).get(10).setWall();    //WALL
+      map.get(3).get(10).setWall();    //WALL
+      
+      
+      //No Dot Spaces
+      map.get(8).get(7).noDot();
+      map.get(9).get(7).noDot();	
+      map.get(10).get(7).noDot();	
+      map.get(11).get(7).noDot();	
+      map.get(11).get(8).noDot();	
+      map.get(11).get(9).noDot();	
+      map.get(11).get(10).noDot();	
+      map.get(11).get(11).noDot();	
+      map.get(11).get(12).noDot();	
+      map.get(8).get(8).noDot();	
+      map.get(8).get(9).noDot();	
+      map.get(8).get(10).noDot();	
+      map.get(8).get(11).noDot();	
+      map.get(8).get(12).noDot();	
+      map.get(9).get(12).noDot();	
+      map.get(10).get(12).noDot();	
+      map.get(9).get(6).noDot();	
+      map.get(9).get(13).noDot();	
+      map.get(12).get(7).noDot();	
+      map.get(12).get(12).noDot();	
+      map.get(9).get(14).noDot();
+      map.get(9).get(1).noDot();
+      map.get(9).get(2).noDot();
+      map.get(9).get(3).noDot();
+      map.get(9).get(4).noDot();
+      map.get(9).get(16).noDot();
+      map.get(9).get(17).noDot();
+      map.get(9).get(18).noDot();
+      map.get(9).get(19).noDot();
+      map.get(13).get(2).noDot();
+      map.get(13).get(3).noDot();
+      map.get(13).get(4).noDot();
+      map.get(13).get(16).noDot();
+      map.get(13).get(17).noDot();
+      map.get(13).get(18).noDot();
+      map.get(15).get(2).noDot();
+      map.get(15).get(3).noDot();
+      map.get(15).get(4).noDot();
+      map.get(16).get(2).noDot();
+      map.get(16).get(3).noDot();
+      map.get(16).get(4).noDot();
+      map.get(15).get(16).noDot();
+      map.get(15).get(17).noDot();
+      map.get(15).get(18).noDot();
+      map.get(16).get(16).noDot();
+      map.get(16).get(17).noDot();
+      map.get(16).get(18).noDot();
+      
+      
       
 		map.get(1).get(1).setPowerUp(true);		//PowerUp
 		map.get(18).get(1).setPowerUp(true);	//PowerUp
