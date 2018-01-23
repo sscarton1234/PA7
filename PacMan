@@ -1,3 +1,4 @@
+
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -18,7 +19,7 @@ import javax.swing.Timer;
 public class PacManUpdate extends JPanel implements ActionListener, KeyListener{
 
 	double x = 600, y = 550, gx = 600, gy = 450;
-	double[] level = {2.5, 2.5, 2.5, 2.0};
+	double[] level = {2, 2.5, 2.5, 2.0};
 	double[] levels = {2.5, 2.5, 2, 1};
 	int oldDirection = 0, newDirection = 0, currentCellX = 1, currentCellY = 5, score = 0, strong = 0, newDirectionG = 0, oldDirectionG = 0;
 	int currentCellXG = 1, currentCellYG = 1, currentDirection = 0, currentDirectionG = 0, count = 0, numLives = 2, lvl = 0, game = 0, player1 = 0, winner = -1;
@@ -383,7 +384,7 @@ public class PacManUpdate extends JPanel implements ActionListener, KeyListener{
 		       
 		       //Ghost
 				g2.setColor(Color.BLUE);
-				Ellipse2D.Double ghost = new Ellipse2D.Double(gx,  gy,  45,  45);
+				Ellipse2D.Double ghost = new Ellipse2D.Double(gx,  gy,  50,  50);
 				g2.fill(ghost);
 				
 				//PACMAN
@@ -761,7 +762,7 @@ public class PacManUpdate extends JPanel implements ActionListener, KeyListener{
 						
 						moveG(0);
 						if((gx % 50) == 0 && (gy % 50) == 0) {
-							if((currentCellXG + 1) == 19) {
+							if((currentCellXG + 1) == 19 && currentCellYG == 9) {
 								currentCellXG = 1;
 								gx = 150;
 							}
@@ -784,7 +785,7 @@ public class PacManUpdate extends JPanel implements ActionListener, KeyListener{
 						
 						moveG(1);
 						if((gx % 50) == 0 && (gy % 50) == 0) {
-							if((currentCellXG - 1) == 0) {
+							if((currentCellXG - 1) == 0 && currentCellYG == 9) {
 								currentCellXG = 19;
 								gx = 1050;
 							}
