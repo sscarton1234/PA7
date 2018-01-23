@@ -18,9 +18,13 @@ import javax.swing.Timer;
 public class PacManUpdate extends JPanel implements ActionListener, KeyListener{
 
 	double x = 600, y = 550, gx = 600, gy = 450;
+	double[] level = {2.5, 2.5, 2.5, 2.0};
+	double[] levels = {2.5, 2.5, 2, 1};
 	int oldDirection = 0, newDirection = 0, currentCellX = 1, currentCellY = 5, score = 0, strong = 0, newDirectionG = 0, oldDirectionG = 0;
-	int currentCellXG = 1, currentCellYG = 1, currentDirection = 0, currentDirectionG = 0, count = 0;
+	int currentCellXG = 1, currentCellYG = 1, currentDirection = 0, currentDirectionG = 0, count = 0, numLives = 2, lvl = 0, game = 0, player1 = 0, winner = -1;
 	ArrayList<ArrayList<PacManCell>> map = new ArrayList<>();
+	ArrayList<Integer> arrDotX = new ArrayList<>();
+	ArrayList<Integer> arrDotY = new ArrayList<>();
 	Timer t = new Timer(1, this);
 	private Image dbImage;
 	private Graphics dbg;
@@ -29,9 +33,102 @@ public class PacManUpdate extends JPanel implements ActionListener, KeyListener{
 		
 		movementG(newDirectionG);
 		movement(newDirection);
-
+		
+		endgame();
+		
 		repaint();
 		
+	}
+	
+	public void endgame() {
+		
+		if(currentCellX == currentCellXG && currentCellY == currentCellYG) {
+			
+			if(strong % (1000 - (150 * lvl)) != 0) {		//If pac is powered then eat ghost
+				gx = 600;
+				gy = 450;
+				currentCellXG = 10;
+				currentCellYG = 9;
+				score += 400;
+			}
+			else if(game == 1 && numLives == 1){
+				oldDirection = 4;
+				oldDirectionG = 4;
+				move(4);
+				moveG(4);
+				if(score > player1) winner = 2;
+				if(player1 > score) winner = 1;
+				if(score == player1) winner = 0;
+				repaint();
+				t.stop();
+			}
+			else {
+				oldDirection = 4;
+				oldDirectionG = 4;
+				move(4);
+				x = 600;
+				y = 550;
+				currentCellX = 10;
+				currentCellY = 11;
+				numLives--;
+				if(numLives == 0 && game == 0) {
+				
+					gx = 600;
+					gy = 450;
+					currentCellXG = 10;
+					currentCellYG = 9;
+					player1 = score;
+					score = 0;
+					numLives = 2;
+					for(int i = 0; i < arrDotX.size(); i++) {
+						
+						map.get(arrDotY.get(i)).get(arrDotX.get(i)).setDot();
+						
+					}	
+					map.get(1).get(1).setPowerUp(true);		//PowerUp
+					map.get(17).get(1).setPowerUp(true);	//PowerUp
+					map.get(1).get(19).setPowerUp(true);	//PowerUp
+					map.get(17).get(19).setPowerUp(true);	//PowerUp
+					game++;
+				}
+			}
+		}
+		else {
+			
+			int numDots = 0;
+			for(int i = 0; i < map.size(); i++) {
+				for(int j = 0; j < map.get(i).size(); j++) {
+					if(map.get(i).get(j).isDot()) numDots++;
+				}
+			}
+			if(numDots == 0) {
+				
+				oldDirection = 4;
+				oldDirectionG = 4;
+				move(4);
+				moveG(4);
+				gx = 600;
+				gy = 450;
+				currentCellXG = 10;
+				currentCellYG = 9;
+				x = 600;
+				y = 550;
+				currentCellX = 10;
+				currentCellY = 11;
+				
+				for(int i = 0; i < arrDotX.size(); i++) {
+					
+					map.get(arrDotY.get(i)).get(arrDotX.get(i)).setDot();
+					
+				}
+				
+				map.get(1).get(1).setPowerUp(true);		//PowerUp
+				map.get(17).get(1).setPowerUp(true);	//PowerUp
+				map.get(1).get(19).setPowerUp(true);	//PowerUp
+				map.get(17).get(19).setPowerUp(true);	//PowerUp
+				lvl += 1;
+			}
+		}
 	}
 	
 	public void movement(int direction) {
@@ -47,15 +144,23 @@ public class PacManUpdate extends JPanel implements ActionListener, KeyListener{
 				case 0: 	// Move right
 				
 					if(map.get(currentCellY).get(currentCellX + 1).isWall()) {	//If runs into wall
+						
 						move(4);	//Stop moving
-						newDirection = oldDirection;
+						if(oldDirection != 1) newDirection = oldDirection;
+						
 					}
 					else {
 						
 						move(0);
 						if((x % 50) == 0 && (y % 50) == 0) {
-							currentCellX += 1;
-							eaten();
+							if((currentCellX + 1) == 20) {
+								currentCellX = 1;
+								x = 150;
+							}
+							else {
+								currentCellX += 1;
+								eaten();
+							}
 						}
 					
 					}
@@ -66,14 +171,20 @@ public class PacManUpdate extends JPanel implements ActionListener, KeyListener{
 					
 					if(map.get(currentCellY).get(currentCellX - 1).isWall()) {	//If runs into wall
 						move(4);	//Stop moving
-						newDirection = oldDirection;
+						if(oldDirection != 0) newDirection = oldDirection;
 					}
 					else {
 						
 						move(1);
 						if((x % 50) == 0 && (y % 50) == 0) {
-							currentCellX -= 1;
-							eaten();
+							if((currentCellX - 1) == 0) {
+								currentCellX = 19;
+								x = 1050;
+							}
+							else {
+								currentCellX -= 1;
+								eaten();
+							}
 						}
 					
 					}
@@ -84,6 +195,7 @@ public class PacManUpdate extends JPanel implements ActionListener, KeyListener{
 					
 					if(map.get(currentCellY - 1).get(currentCellX).isWall()) {	//If runs into wall
 						move(4);	//Stop moving
+						if(oldDirection != 3) newDirection = oldDirection;
 					}
 					else {
 						
@@ -101,6 +213,7 @@ public class PacManUpdate extends JPanel implements ActionListener, KeyListener{
 					
 					if(map.get(currentCellY + 1).get(currentCellX).isWall()) {	//If runs into wall
 						move(4);	//Stop moving
+						if(oldDirection != 2) newDirection = oldDirection;
 					}
 					else {
 						
@@ -120,13 +233,13 @@ public class PacManUpdate extends JPanel implements ActionListener, KeyListener{
 	
 	public void move(int direct) {
 		switch(direct) {
-			case 0: x += 1;
+			case 0: x += levels[lvl];
 				break;
-			case 1: x -= 1;
+			case 1: x -= levels[lvl];
 				break;
-			case 2: y -= 1;
+			case 2: y -= levels[lvl];
 				break;
-			case 3: y += 1;
+			case 3: y += levels[lvl];
 				break;
 			case 4: x += 0; y += 0;
 				break;
@@ -137,6 +250,8 @@ public class PacManUpdate extends JPanel implements ActionListener, KeyListener{
 	public void eaten() {
 		if(map.get(currentCellY).get(currentCellX).isDot()) {	//If new cell is dot then add to score
 			score += 10;
+			arrDotX.add(currentCellX);
+			arrDotY.add(currentCellY);
 			map.get(currentCellY).get(currentCellX).noDot();
 			paintImmediately(10, 150, 300, 300);
 			
@@ -157,31 +272,6 @@ public class PacManUpdate extends JPanel implements ActionListener, KeyListener{
 		//Background
 		g2.setColor(Color.BLACK);
 		g2.fill(new Rectangle2D.Double(0, 0, 1300, 1000));
-		
-		//Ghost
-		g2.setColor(Color.BLUE);
-		Ellipse2D.Double ghost = new Ellipse2D.Double(gx,  gy,  45,  45);
-		g2.fill(ghost);
-		
-		//PACMAN
-		Ellipse2D.Double pacman = new Ellipse2D.Double(x, y, 50, 50);
-		if((strong % 1000) == 0) {			//If no Powerup then yellow pacman
-
-			g2.setColor(Color.YELLOW);
-			
-		}
-		else if(((strong % 250) <= 15) || (((strong % 1000) > 750) && ((strong % 50) <= 30))) {		//If Powerup almost ran out start to blink
-			
-			g2.setColor(Color.YELLOW);
-			strong++;
-			
-		}
-		else {								//If Powered up then green pacman
-			g2.setColor(Color.GREEN);
-			strong++;
-		}
-			
-		g2.fill(pacman);
 		
 		//FOOD
 		g2.setColor(Color.WHITE);
@@ -279,24 +369,96 @@ public class PacManUpdate extends JPanel implements ActionListener, KeyListener{
 		       g2.setColor(Color.black);
 		       g2.drawLine(600, 450, 650, 450);
 		       g2.drawLine(600, 460, 650, 460);
+		       g2.draw(new Rectangle2D.Double(1100, 450, 10, 50));
+		       g2.draw(new Rectangle2D.Double(140, 450, 10, 50));
 		       
 		       g2.setColor(Color.pink);
 		       g2.fill(new Rectangle2D.Double(602, 452, 48, 6));
 		       
 		       g2.setColor(Color.blue);
-	    	    
+		       g2.drawLine(140, 450, 160, 450);
+		       g2.drawLine(140, 500, 160, 500);
+		       g2.drawLine(1090, 450, 1110, 450);
+		       g2.drawLine(1090, 500, 1110, 500);
+		       
+		       //Ghost
+				g2.setColor(Color.BLUE);
+				Ellipse2D.Double ghost = new Ellipse2D.Double(gx,  gy,  45,  45);
+				g2.fill(ghost);
+				
+				//PACMAN
+				Ellipse2D.Double pacman = new Ellipse2D.Double(x, y, 50, 50);
+				if((strong % 1000) == 0) {			//If no Powerup then yellow pacman
+
+					g2.setColor(Color.YELLOW);
+					
+				}
+				else if(((strong % 250) <= 15) || (((strong % 1000) > 750) && ((strong % 50) <= 30))) {		//If Powerup almost ran out start to blink
+					
+					g2.setColor(Color.YELLOW);
+					strong++;
+					
+				}
+				else {								//If Powered up then green pacman
+					g2.setColor(Color.GREEN);
+					strong++;
+				}
+					
+				g2.fill(pacman);
+				
+				g2.setColor(Color.blue);
 	    
 	    //TEXT
 	    Font currentFont = g.getFont();
 	    Font newFont = currentFont.deriveFont(currentFont.getSize() * 3F);
 	    g.setFont(newFont);
 	    g2.drawString("Player 1", 10, 100);
+	    g2.drawString("Player 2", 1150, 100);
 	    g2.drawString("Score:", 25, 150);
-	    g2.drawString(Integer.toString(score), 40, 200);
+	    g2.drawString("Score:", 1175, 150);
+	    g2.drawString(Integer.toString(score), 40 + (1150 * game), 200);
+	    if(game == 1) {
+	    	
+	    	g2.drawString(Integer.toString(player1), 40, 200);
+	    	
+	    }
 	    
-	    g2.drawString("LIVES:", 20, 800);
-	    int numLives = 3;
-		g2.drawString(Integer.toString(numLives), 60, 850);
+	    
+	    
+	    g2.drawString("LIVES:", 20, 700);
+	    g2.drawString("LIVES:", 1170, 700);
+	    
+	    g2.setColor(Color.yellow);
+	    if(numLives >= 1) {
+	    	g2.fill(new Ellipse2D.Double(60 + (1150 * game), 850, 50, 50));
+	    }
+	    if(numLives == 2) {
+	    	g2.fill(new Ellipse2D.Double(60 + (1150 * game), 750, 50, 50));
+	    }
+		
+		switch(winner) {
+    	case 0: 
+    			g2.setColor(Color.BLACK);
+    			g2.fill(new Rectangle2D.Double(0, 0, 1500, 1000));
+    			g2.setColor(Color.blue);
+    			newFont = currentFont.deriveFont(currentFont.getSize() * 10F);
+    			g2.drawString("Tie Game!!", 700, 400);
+    		break;
+    	case 1: 
+				g2.setColor(Color.BLACK);
+				g2.fill(new Rectangle2D.Double(0, 0, 1500, 1000));
+				g2.setColor(Color.blue);
+				newFont = currentFont.deriveFont(currentFont.getSize() * 10F);
+				g2.drawString("Player 1 Wins!!", 700, 400);
+			break;
+    	case 2: 
+				g2.setColor(Color.BLACK);
+				g2.fill(new Rectangle2D.Double(0, 0, 1500, 1000));
+				g2.setColor(Color.blue);
+				newFont = currentFont.deriveFont(currentFont.getSize() * 10F);
+				g2.drawString("Player 2 Wins!!", 700, 400);
+			break;
+		}
 		/*
 		g2.setColor(Color.CYAN);
 	    g2.drawString("Count: " + count, 100, 100);
@@ -378,8 +540,8 @@ public class PacManUpdate extends JPanel implements ActionListener, KeyListener{
 			}
 			
 		}
-		
-		
+		map.get(9).get(0).noWall();			//NO WALL
+		map.get(9).get(20).noWall();		//NO WALL	
 		
 		map.get(12).get(8).setWall();		//WALL
 		map.get(12).get(9).setWall();		//WALL
@@ -532,6 +694,9 @@ public class PacManUpdate extends JPanel implements ActionListener, KeyListener{
       map.get(16).get(16).setWall();	//Wall
       map.get(16).get(17).setWall();	//Wall
       map.get(16).get(18).setWall();	//Wall
+      map.get(12).get(12).setWall();	//Wall
+      map.get(13).get(2).setWall();		//Wall
+      map.get(13).get(3).setWall();		//Wall
       
       //No Dot Spaces
       map.get(10).get(13).noDot();    
@@ -552,12 +717,10 @@ public class PacManUpdate extends JPanel implements ActionListener, KeyListener{
       map.get(8).get(9).noDot();	
       map.get(8).get(10).noDot();	
       map.get(8).get(11).noDot();	
-      map.get(8).get(12).noDot();	
-      
+      map.get(8).get(12).noDot();	   
       map.get(9).get(6).noDot();	
       map.get(9).get(13).noDot();	
       map.get(12).get(7).noDot();	
-      map.get(12).get(12).noDot();	
       map.get(9).get(14).noDot();
       map.get(9).get(1).noDot();
       map.get(9).get(2).noDot();
@@ -567,8 +730,7 @@ public class PacManUpdate extends JPanel implements ActionListener, KeyListener{
       map.get(9).get(17).noDot();
       map.get(9).get(18).noDot();
       map.get(9).get(19).noDot();
-      map.get(13).get(2).noDot();
-      map.get(13).get(3).noDot();
+      
       
       
       map.get(1).get(1).setPowerUp(true);		//PowerUp
@@ -593,12 +755,19 @@ public class PacManUpdate extends JPanel implements ActionListener, KeyListener{
 				
 					if(map.get(currentCellYG).get(currentCellXG + 1).isWall()) {	//If runs into wall
 						moveG(4);	//Stop moving
+						if(oldDirectionG != 1) newDirectionG = oldDirectionG;
 					}
 					else {
 						
 						moveG(0);
 						if((gx % 50) == 0 && (gy % 50) == 0) {
-							currentCellXG += 1;
+							if((currentCellXG + 1) == 19) {
+								currentCellXG = 1;
+								gx = 150;
+							}
+							else {
+								currentCellXG += 1;
+							}
 						}
 					
 					}
@@ -609,12 +778,19 @@ public class PacManUpdate extends JPanel implements ActionListener, KeyListener{
 					
 					if(map.get(currentCellYG).get(currentCellXG - 1).isWall()) {	//If runs into wall
 						moveG(4);	//Stop moving
+						if(oldDirectionG != 0) newDirectionG = oldDirectionG;
 					}
 					else {
 						
 						moveG(1);
 						if((gx % 50) == 0 && (gy % 50) == 0) {
-							currentCellXG -= 1;
+							if((currentCellXG - 1) == 0) {
+								currentCellXG = 19;
+								gx = 1050;
+							}
+							else {
+								currentCellXG -= 1;
+							}
 						}
 					
 					}
@@ -625,6 +801,7 @@ public class PacManUpdate extends JPanel implements ActionListener, KeyListener{
 					
 					if(map.get(currentCellYG - 1).get(currentCellXG).isWall()) {	//If runs into wall
 						moveG(4);	//Stop moving
+						if(oldDirectionG != 3) newDirectionG = oldDirectionG;
 					}
 					else {
 						
@@ -641,6 +818,7 @@ public class PacManUpdate extends JPanel implements ActionListener, KeyListener{
 					
 					if(map.get(currentCellYG + 1).get(currentCellXG).isWall()) {	//If runs into wall
 						moveG(4);	//Stop moving
+						if(oldDirectionG != 2) newDirectionG = oldDirectionG;
 					}
 					else {
 						
@@ -657,13 +835,13 @@ public class PacManUpdate extends JPanel implements ActionListener, KeyListener{
 	
 	public void moveG(int direct) {
 		switch(direct) {
-			case 0: gx += 1;
+			case 0: gx += level[lvl];
 				break;
-			case 1: gx -= 1;
+			case 1: gx -= level[lvl];
 				break;
-			case 2: gy -= 1;
+			case 2: gy -= level[lvl];
 				break;
-			case 3: gy += 1;
+			case 3: gy += level[lvl];
 				break;
 			case 4: gx += 0; gy += 0;
 		}
