@@ -1,4 +1,3 @@
-
 import java.awt.geom.Ellipse2D;
 
 public class PacManCell {
@@ -11,6 +10,9 @@ public class PacManCell {
 		wall = true;
 		dot = false;
 		
+	}
+	public void noWall() {
+		wall = false;
 	}
 	
 	public void setPowerUp(boolean choice) {
@@ -35,6 +37,11 @@ public class PacManCell {
 	public void noDot() {
 		
 		dot = false;
+		
+	}
+	public void setDot() {
+		
+		dot = true;
 		
 	}
 	
