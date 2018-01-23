@@ -267,7 +267,7 @@ public class PacManUpdate extends JPanel implements ActionListener, KeyListener{
 	    g2.draw(r27);
        RoundRectangle2D.Double r28 = new RoundRectangle2D.Double(700, 700, 150, 200, 25, 25);
 	    g2.draw(r28);
-       RoundRectangle2D.Double r29 = new RoundRectangle2D.Double(550, 800, 150, 50, 25, 25);
+       RoundRectangle2D.Double r29 = new RoundRectangle2D.Double(550, 800, 150, 100, 25, 25);
 	    g2.draw(r29);
 	    g2.drawLine(600, 450, 600, 460);
 	    g2.drawLine(650, 450, 650, 460);
@@ -483,6 +483,39 @@ public class PacManUpdate extends JPanel implements ActionListener, KeyListener{
       map.get(1).get(10).setWall();    //WALL
       map.get(2).get(10).setWall();    //WALL
       map.get(3).get(10).setWall();    //WALL
+      map.get(14).get(6).setWall();    //WALL
+      map.get(14).get(7).setWall();    //WALL
+      map.get(14).get(8).setWall();    //WALL
+      map.get(14).get(12).setWall();    //WALL
+      map.get(14).get(13).setWall();    //WALL
+      map.get(14).get(14).setWall();    //WALL
+      map.get(15).get(6).setWall();    //WALL
+      map.get(15).get(7).setWall();    //WALL
+      map.get(15).get(8).setWall();    //WALL
+      map.get(15).get(12).setWall();    //WALL
+      map.get(15).get(13).setWall();    //WALL
+      map.get(15).get(14).setWall();    //WALL
+      map.get(16).get(6).setWall();    //WALL
+      map.get(16).get(7).setWall();    //WALL
+      map.get(16).get(8).setWall();    //WALL
+      map.get(16).get(12).setWall();    //WALL
+      map.get(16).get(13).setWall();    //WALL
+      map.get(16).get(14).setWall();    //WALL
+      map.get(17).get(6).setWall();    //WALL
+      map.get(17).get(7).setWall();    //WALL
+      map.get(17).get(8).setWall();    //WALL
+      map.get(17).get(12).setWall();    //WALL
+      map.get(17).get(13).setWall();    //WALL
+      map.get(17).get(14).setWall();    //WALL
+      map.get(13).get(10).setWall();    //WALL
+      map.get(14).get(10).setWall();    //WALL
+      map.get(16).get(9).setWall();    //WALL
+      map.get(17).get(9).setWall();    //WALL
+      map.get(16).get(10).setWall();    //WALL
+      map.get(17).get(10).setWall();    //WALL
+      map.get(16).get(11).setWall();    //WALL
+      map.get(17).get(11).setWall();    //WALL
+      
       
       //No Dot Spaces
       map.get(8).get(7).noDot();
